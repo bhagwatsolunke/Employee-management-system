@@ -1,13 +1,23 @@
 import React, { Component } from 'react';
-
+import EmployeeService from '../services/EmployeeService';
 export default class ListEmployee extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      employee: []
+      employees: []
     };
   }
 
+  componentDidMount(){
+    EmployeeService.getEmployees()
+    .then((res) => {
+      console.log('Response data:', res.data); // Log the response data
+      this.setState({ employees: res.data });
+    })
+    .catch((error) => {
+      console.error('Error fetching employees:', error);
+    });
+}
   render() {
     return (
       <div>
@@ -24,10 +34,10 @@ export default class ListEmployee extends Component {
                 </tr>
               </thead>
               <tbody>
-                {this.state.employee.map((employee) => (
+                {this.state.employees.map((employee) => (
                   <tr key={employee.id}>
                     <td>{employee.firstName}</td>
-                    <td>{employee.LastName}</td>
+                    <td>{employee.lastName}</td>
                     <td>{employee.emailId}</td>
                     {/* Add action buttons here */}
                   </tr>
