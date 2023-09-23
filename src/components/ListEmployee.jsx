@@ -1,52 +1,59 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import EmployeeService from '../services/EmployeeService';
-export default class ListEmployee extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      employees: []
-    };
-  }
 
-  componentDidMount(){
+function ListEmployee() {
+  const navigate = useNavigate(); // Access navigate function for navigation
+
+  const [employees, setEmployees] = useState([]);
+
+  useEffect(() => {
+    // Fetch employees when the component mounts
     EmployeeService.getEmployees()
-    .then((res) => {
-      console.log('Response data:', res.data); // Log the response data
-      this.setState({ employees: res.data });
-    })
-    .catch((error) => {
-      console.error('Error fetching employees:', error);
-    });
-}
-  render() {
-    return (
-      <div>
-        <h2 className='text-center'>Employee List</h2>
-        <div className="row">
-          <div className="col-md-12"> {/* Use a Bootstrap grid system to make the table take up the full width */}
-            <table className='table table-striped'>
-              <thead>
-                <tr>
-                  <th>Employee First Name</th>
-                  <th>Employee Last Name</th>
-                  <th>Employee Email id</th>
-                  <th>Actions</th>
+      .then((res) => {
+        console.log('Response data:', res.data);
+        setEmployees(res.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching employees:', error);
+      });
+  }, []); // Empty dependency array means this effect runs once, like componentDidMount
+
+  return (
+    <div>
+      <h2 className='text-center'>Employee List</h2>
+      <button
+        className="btn btn-primary mx-1"
+        onClick={() => navigate('/add-employee')} // Use navigate for navigation
+      >
+        Add Employee
+      </button>
+      <div className="row">
+        <div className="col-md-12">
+          <table className='table table-striped'>
+            <thead>
+              <tr>
+                <th>Employee First Name</th>
+                <th>Employee Last Name</th>
+                <th>Employee Email id</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {employees.map((employee) => (
+                <tr key={employee.id}>
+                  <td>{employee.firstName}</td>
+                  <td>{employee.lastName}</td>
+                  <td>{employee.emailId}</td>
+                  {/* Add action buttons here */}
                 </tr>
-              </thead>
-              <tbody>
-                {this.state.employees.map((employee) => (
-                  <tr key={employee.id}>
-                    <td>{employee.firstName}</td>
-                    <td>{employee.lastName}</td>
-                    <td>{employee.emailId}</td>
-                    {/* Add action buttons here */}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
+
+export default ListEmployee;
