@@ -1,5 +1,5 @@
 import React, { Component, useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import EmployeeService from '../services/EmployeeService';
 
 function ListEmployee() {
