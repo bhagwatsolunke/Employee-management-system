@@ -45,8 +45,10 @@ function ListEmployee() {
                   <td>{employee.firstName}</td>
                   <td>{employee.lastName}</td>
                   <td>{employee.emailId}</td>
-                  {/* Add action buttons here */}
-                </tr>
+                  <button onClick={() => navigate(`/update-employee/${employee.id}`)} className='btn btn-info'>
+               Update
+               </button>    
+              </tr>
               ))}
             </tbody>
           </table>
