@@ -18,6 +18,12 @@ class EmployeeService{
         const url="http://localhost:8090/api/v1/employee"
         return axios.put(url + '/' + employeeId,employee)
     }
+
+    deleteEmployee(employeeId){
+        const url="http://localhost:8090/api/v1/employee"
+        return axios.delete(url + '/' + employeeId)
+    }
+
 }  
 
 export default new EmployeeService()
