@@ -1,10 +1,13 @@
 package com.example.demo.controller;
 
 import java.util.List;
-
+import java.util.Map;
+import java.util.HashMap;
+ 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -58,6 +61,17 @@ public class EmployeeController {
     return ResponseEntity.ok(updateEmployee);
     }
     
+    
+    //delete employee rest api
+    @DeleteMapping("/employee/{id}")
+    public ResponseEntity<Map<String,Boolean>>deleteEmployee(@PathVariable Long id){
+    	 Employee employee = employeeRepository.findById(id)
+                 .orElseThrow(() -> new ResourceNotFoundException("Employee not found with id: " + id));
+       employeeRepository.delete(employee);
+       Map<String, Boolean> response = new HashMap<>();
+       response.put("delete", Boolean.TRUE);
+       return ResponseEntity.ok(response);
+}
     
 }
 
